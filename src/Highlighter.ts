@@ -213,6 +213,18 @@ export class CodeHighlighter {
 			meta,
 		});
 
+		// clicking on the codeblock does not turn into editable area by default in live preview mode.
+		// but there is a 'edit' button on the top right corner, and move cursor in
+		// and out the block also makes it editable, both are not mouse friendly.
+		// make it easy to edit by double clicking it with a simulating click on
+		// the edit button. this will select the whole section. 
+		const copyButton = container.parentElement?.find('div.edit-block-button');
+		if (copyButton) {
+			container.ondblclick = () => {
+				copyButton.click();
+			};
+		}
+
 		container.innerHTML = toHtml(this.themeMapper.fixAST(result.renderedGroupAst));
 	}
 
